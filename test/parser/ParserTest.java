@@ -1,7 +1,6 @@
 package parser;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import expression.*;
@@ -35,43 +34,43 @@ public class ParserTest {
     @Test
     public void testProgram() {
         Parser parser = new Parser(programCode);
-        assertEquals(Optional.of(program), parser.program());
+        assertEquals(program, parser.program());
     }
 
     @Test
     public void testStatementAssignment() {
         Parser parser = new Parser(assignmentCode);
-        assertEquals(Optional.of(assignment), parser.statement());
+        assertEquals(assignment, parser.statement());
     }
 
     @Test
     public void testStatementConditional() {
         Parser parser = new Parser(conditionalCode);
-        assertEquals(Optional.of(conditional), parser.statement());
+        assertEquals(conditional, parser.statement());
     }
 
     @Test
     public void testStatementLoop() {
         Parser parser = new Parser(loopCode);
-        assertEquals(Optional.of(loop), parser.statement());
+        assertEquals(loop, parser.statement());
     }
 
     @Test
     public void testAssignment() {
         Parser parser = new Parser(assignmentCode);
-        assertEquals(Optional.of(assignment), parser.assignment());
+        assertEquals(assignment, parser.assignment());
     }
 
     @Test
     public void testConditional() {
         Parser parser = new Parser(conditionalCode);
-        assertEquals(Optional.of(conditional), parser.conditional());
+        assertEquals(conditional, parser.conditional());
     }
 
     @Test
     public void testLoop() {
         Parser parser = new Parser(loopCode);
-        assertEquals(Optional.of(loop), parser.loop());
+        assertEquals(loop, parser.loop());
     }
 
     final String expressionCode = "a+b - (c - 56) + -47";
@@ -80,61 +79,36 @@ public class ParserTest {
     @Test
     public void testExpression() {
         Parser parser = new Parser(expressionCode);
-        assertEquals(Optional.of(expression), parser.expression());
-    }
-
-    @Test
-    public void testOperatorMinus() {
-        Parser parser = new Parser("-");
-        assertEquals(Operator.MINUS, parser.operator());
-    }
-
-    @Test
-    public void testOperatorPlus() {
-        Parser parser = new Parser("+");
-        assertEquals(Operator.PLUS, parser.operator());
+        assertEquals(expression, parser.expression());
     }
 
     @Test
     public void testAtomExpression() {
         Parser parser = new Parser("(" + expressionCode + ")");
-        assertEquals(Optional.of(expression), parser.atom());
+        assertEquals(expression, parser.atom());
     }
 
     @Test
     public void testAtomNumber() {
         Parser parser = new Parser("37658");
-        assertEquals(Optional.of(new Int(37658)), parser.atom());
+        assertEquals(new Int(37658), parser.atom());
     }
 
     @Test
     public void testAtomIdentifier() {
         Parser parser = new Parser("egjfd");
-        assertEquals(Optional.of(new Identifier("egjfd")), parser.atom());
+        assertEquals(new Identifier("egjfd"), parser.atom());
     }
 
     @Test
     public void testNumber() {
         Parser parser = new Parser("37658");
-        assertEquals(Optional.of(new Int(37658)), parser.integer());
+        assertEquals(new Int(37658), parser.integer());
     }
 
     @Test
     public void testIdentifier() {
         Parser parser = new Parser("egjfd");
-        assertEquals(Optional.of(new Identifier("egjfd")), parser.identifier());
-    }
-
-    @Test
-    public void testWhitespace() {
-        Parser parser = new Parser(" \n\t  x");
-        parser.whitespace();
-        assertEquals('x', parser.input.charAt(parser.position));
-    }
-
-    @Test
-    public void testToken() {
-        Parser parser = new Parser("gehjfwdk");
-        assertTrue(parser.token("gehjfwdk"));
+        assertEquals(new Identifier("egjfd"), parser.identifier());
     }
 }
