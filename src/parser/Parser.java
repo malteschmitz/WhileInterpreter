@@ -1,7 +1,7 @@
 package parser;
 
 import expression.*;
-import expression.Number;
+import expression.Int;
 import program.*;
 
 import java.util.ArrayList;
@@ -10,8 +10,8 @@ import java.util.Optional;
 
 public class Parser {
 
-    private int position = 0;
-    private String input;
+    int position = 0;
+    String input;
 
     public Parser(String input) {
         this.input = input;
@@ -27,7 +27,7 @@ public class Parser {
         return program;
     }
 
-    private Optional<Program> program() {
+    Optional<Program> program() {
         List<Program> statements = new ArrayList<>();
         boolean run = true;
         int start = position;
@@ -53,7 +53,7 @@ public class Parser {
         return program;
     }
 
-    private Optional<Program> statement() {
+    Optional<Program> statement() {
         int start = position;
         Optional<Program> result = assignment();
         if (!result.isPresent()) {
@@ -67,7 +67,7 @@ public class Parser {
         return result;
     }
 
-    private Optional<Program> loop() {
+    Optional<Program> loop() {
         if (token("while") && token("(")) {
             Optional<Expression> condition = expression();
             return condition.flatMap(cond -> {
@@ -81,13 +81,13 @@ public class Parser {
         return Optional.empty();
     }
 
-    private Optional<Program> conditional() {
+    Optional<Program> conditional() {
         if (token("if") && token("(")) {
             Optional<Expression> condition = expression();
-            condition.flatMap(cond -> {
+            return condition.flatMap(cond -> {
                 if (token(")") && token("then") && token("{")) {
                     Optional<Program> thenCase = program();
-                    thenCase.flatMap(thenC -> {
+                    return thenCase.flatMap(thenC -> {
                         if (token("}") && token("else") && token("{")) {
                             Optional<Program> elseCase = program();
                             return elseCase.filter(elseC -> token("}")).map(elseC -> new Conditional(cond, thenC, elseC));
@@ -101,7 +101,7 @@ public class Parser {
         return Optional.empty();
     }
 
-    private Optional<Program> assignment() {
+    Optional<Program> assignment() {
         Optional<Identifier> identifier = identifier();
         return identifier.flatMap(id -> {
             if (token(":=")) {
@@ -112,17 +112,17 @@ public class Parser {
         });
     }
 
-    private static class OperatorWithExpression {
+    static class OperatorWithExpression {
         private final Operator operator;
         private final Expression expression;
 
-        private OperatorWithExpression(Operator operator, Expression expression) {
+        OperatorWithExpression(Operator operator, Expression expression) {
             this.operator = operator;
             this.expression = expression;
         }
     }
 
-    private enum Operator {
+    enum Operator {
         PLUS, MINUS, NONE;
 
         Expression toOperation(Expression leftHandSide, Expression rightHandSide) {
@@ -136,7 +136,7 @@ public class Parser {
         }
     }
 
-    private Optional<Expression> expression() {
+    Optional<Expression> expression() {
         List<OperatorWithExpression> atoms = new ArrayList<>();
         Operator operator = Operator.PLUS;
         int start = position;
@@ -163,7 +163,7 @@ public class Parser {
         return expression;
     }
 
-    private Operator operator() {
+    Operator operator() {
         if (token("+")) {
             return Operator.PLUS;
         } else if (token("-")) {
@@ -173,7 +173,7 @@ public class Parser {
         }
     }
 
-    private Optional<Expression> atom() {
+    Optional<Expression> atom() {
         int start = position;
         Optional<Expression> result;
         if (token("(")) {
@@ -181,7 +181,7 @@ public class Parser {
             result = expression.filter(exp -> token(")"));
         } else {
             position = start;
-            result = number();
+            result = integer();
             if (!result.isPresent()) {
                 position = start;
                 result = identifier().map(id -> id);
@@ -190,11 +190,11 @@ public class Parser {
         return result;
     }
 
-    private boolean isLowerLetter(char ch) {
+    boolean isLowerLetter(char ch) {
         return ch >= 'a' && ch <= 'z';
     }
 
-    private Optional<Expression> number() {
+    Optional<Expression> integer() {
         whitespace();
         int start = position;
         boolean minus = position < input.length() && input.charAt(position) == '-';
@@ -207,13 +207,13 @@ public class Parser {
             digitsFound = true;
         }
         if (digitsFound) {
-            return Optional.of(new Number(Integer.parseInt(input.substring(start, position))));
+            return Optional.of(new Int(Integer.parseInt(input.substring(start, position))));
         } else {
             return Optional.empty();
         }
     }
 
-    private Optional<Identifier> identifier() {
+    Optional<Identifier> identifier() {
         whitespace();
         int start = position;
         while (position < input.length() && isLowerLetter(input.charAt(position))) {
@@ -226,13 +226,13 @@ public class Parser {
         return Optional.empty();
     }
 
-    private void whitespace() {
+    void whitespace() {
         while(position < input.length() && Character.isWhitespace(input.charAt(position))) {
             position += 1;
         }
     }
 
-    private boolean token(String token) {
+    boolean token(String token) {
         whitespace();
         boolean success = position + token.length() <= input.length() && input.substring(position, position + token.length()).equals(token);
         if (success) {

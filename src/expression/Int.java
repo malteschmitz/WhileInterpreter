@@ -1,9 +1,9 @@
 package expression;
 
-public class Number extends Expression {
+public class Int extends Expression {
     public final int value;
 
-    public Number(int value) {
+    public Int(int value) {
         this.value = value;
     }
 
@@ -12,9 +12,9 @@ public class Number extends Expression {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Number number = (Number) o;
+        Int integer = (Int) o;
 
-        return value == number.value;
+        return value == integer.value;
 
     }
 
