@@ -1,6 +1,7 @@
 package parser;
 
 import expression.*;
+import expression.Identifier;
 import expression.Int;
 import program.*;
 
@@ -51,10 +52,23 @@ public class Parser {
                 statement = conditional();
             } catch (SyntaxException se2) {
                 position = start;
-                statement = loop();
+                try {
+                    statement = loop();
+                } catch (SyntaxException se3) {
+                    position = start;
+                    statement = call();
+                }
             }
         }
         return statement;
+    }
+
+    Program call() {
+        Identifier name = identifier();
+        consume("(");
+        Expression argument = expression();
+        consume(")");
+        return new Call(name, argument);
     }
 
     Program loop() {

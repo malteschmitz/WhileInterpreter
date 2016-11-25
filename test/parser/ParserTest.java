@@ -52,6 +52,15 @@ public class ParserTest {
         assertEquals(loop, parser.statement());
     }
 
+    final String callCode = "print(x + 36)";
+    final Call call = new Call(new Identifier("print"), new Addition(new Identifier("x"), new Int(36)));
+
+    @Test
+    public void testStatementCall() {
+        Parser parser = new Parser(callCode);
+        assertEquals(call, parser.statement());
+    }
+
     @Test
     public void testAssignment() {
         Parser parser = new Parser(assignmentCode);
@@ -68,6 +77,12 @@ public class ParserTest {
     public void testLoop() {
         Parser parser = new Parser(loopCode);
         assertEquals(loop, parser.loop());
+    }
+
+    @Test
+    public void testCall() {
+        Parser parser = new Parser(callCode);
+        assertEquals(call, parser.call());
     }
 
     final String expressionCode = "a+b - (c - 56) + -47";
