@@ -5,7 +5,7 @@ import program.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Interpreter extends ProgramVisitor {
+public class Interpreter extends Visitor {
     final Program program;
     final Map<String, Integer> valuation = new HashMap<>();
 
@@ -20,19 +20,16 @@ public class Interpreter extends ProgramVisitor {
         visit(program);
     }
 
-    @Override
     public void visitAssignment(Assignment assignment) {
         Evaluator evaluator = new Evaluator(assignment.expression, valuation);
         valuation.put(assignment.identifier.name, evaluator.eval());
     }
 
-    @Override
     public void visitComposition(Composition composition) {
         visit(composition.first);
         visit(composition.second);
     }
 
-    @Override
     public void visitConditional(Conditional conditional) {
         Evaluator evaluator = new Evaluator(conditional.condition, valuation);
         if (evaluator.eval() != 0) {
@@ -42,7 +39,6 @@ public class Interpreter extends ProgramVisitor {
         }
     }
 
-    @Override
     public void visitLoop(Loop loop) {
         Evaluator evaluator = new Evaluator(loop.condition, valuation);
         if (evaluator.eval() != 0) {
