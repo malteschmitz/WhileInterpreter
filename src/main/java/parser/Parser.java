@@ -22,7 +22,6 @@ Der Parser nimmt einen String mit dem Quelltext entgegen und erzeugt daraus ein 
 package parser;
 
 import expression.*;
-import expression.Identifier;
 import expression.Int;
 import program.*;
 
@@ -86,23 +85,10 @@ des Quelltextes geparsed wurden.
                 statement = conditional();
             } catch (SyntaxException se2) {
                 position = start;
-                try {
-                    statement = loop();
-                } catch (SyntaxException se3) {
-                    position = start;
-                    statement = call();
-                }
+                statement = loop();
             }
         }
         return statement;
-    }
-
-    Program call() {
-        Identifier name = identifier();
-        consume("(");
-        Expression argument = expression();
-        consume(")");
-        return new Call(name, argument);
     }
 
     Program loop() {
