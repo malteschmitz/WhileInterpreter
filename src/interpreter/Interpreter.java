@@ -49,15 +49,11 @@ public class Interpreter extends ProgramVisitor {
         }
     }
 
-    private boolean enterLoop(Loop loop) {
-        Evaluator evaluator = new Evaluator(loop.condition, valuation);
-        return evaluator.eval() != 0;
-    }
-
     @Override
     public void visitLoop(Loop loop) {
-        while(enterLoop(loop)) {
-            visit(loop.program);
+        Evaluator evaluator = new Evaluator(loop.condition, valuation);
+        if (evaluator.eval() != 0) {
+            visit(new Composition(loop.program, loop));
         }
     }
 }
