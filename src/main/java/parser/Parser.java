@@ -1,3 +1,24 @@
+/*!! Parser */
+/*!
+# Parser
+Dieser [rekursiv absteigende Parser](https://de.wikipedia.org/wiki/Rekursiver_Abstieg) versteht sehr einfache While-Programme, die folgender Grammatik in [EBNF](https://de.wikipedia.org/wiki/Erweiterte_Backus-Naur-Form) genügen:
+
+    Prog = Id ":=" Expr |
+           Prog ";" Prog |
+          "if" "(" Expr ")" "then" "{" Prog "}" "else" "{" Prog "}" |
+          "while" "(" Expr ")" "{" Prog "}"
+    Expr = Expr "+" Atom |
+           Expr "-" Atom |
+           Atom
+    Atom = Id | Num | "(" Expr ")"
+
+Dabei kann `Num` direkt zu einer beliebigen ganzen Zahl und `Id` direkt zu einem beliebigen Bezeichner aus den Zeichen
+`a` bis `z` abgeleitet werden.
+
+Der Parser nimmt einen String mit dem Quelltext entgegen und erzeugt daraus ein `Program`.
+*/
+
+/*!- Header */
 package parser;
 
 import expression.*;
@@ -8,9 +29,21 @@ import program.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/*!
+Die Klasse `Parser` implementiert den Parser. Sie wird verwendet, indem dem Konstruktor der zu parsende Quelltext
+übergeben wird. Anschließend kann die Methide `parse` aufgerufen werden, die das geparste `Program` zurückgibt.
+
+    Parser parser = new Parser("a := 1");
+    Program program = parser.parse();
+*/
 public class Parser {
 
-    int position = 0;
+/*!
+Die Instanzvariable `input` hält den zu parsenden Quelltext und in `position` steht die aktuelle Position des Parsers.
+Alle folgenden Methoden betrachten den Quelltext jeweils ab der aktuellen Position und erhöhen diese, wenn Zeichen
+des Quelltextes geparsed wurden.
+*/
+    int position;
     String input;
 
     public Parser(String input) {
@@ -18,6 +51,7 @@ public class Parser {
     }
 
     public Program parse() {
+        position = 0;
         Program program = program();
         whitespace();
         if (position < input.length()) {
