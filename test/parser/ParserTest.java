@@ -4,10 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import expression.*;
-import parser.Parser.Operator;
 import program.*;
-
-import java.util.Optional;
 
 public class ParserTest {
     final String loopCode = "while (a) { r := r + b ; a := a - 1 }";
