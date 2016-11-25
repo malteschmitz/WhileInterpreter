@@ -28,7 +28,7 @@ public class Parser {
 
     Program program() {
         Program firstStatement = statement();
-        List<Program> moreStatements = new ArrayList<>();
+        List<Program> moreStatements = new ArrayList<Program>();
         while (test(";")) {
             consume(";");
             Program statement = statement();
@@ -148,7 +148,7 @@ public class Parser {
 
     Expression expression() {
         Expression firstAtom = atom();
-        List<OperatorWithExpression> moreAtoms = new ArrayList<>();
+        List<OperatorWithExpression> moreAtoms = new ArrayList<OperatorWithExpression>();
         while(testOperator()) {
             Operator operator = operator();
             Expression expression = atom();

@@ -8,7 +8,7 @@ import java.util.Map;
 public class Evaluator extends Visitor<Integer> {
 
     final Expression expression;
-    final Map<String, Integer> valuation = new HashMap<>();
+    final Map<String, Integer> valuation = new HashMap<String, Integer>();
 
     public Evaluator(Expression expression, Map<String, Integer> valuation) {
         this.expression = expression;

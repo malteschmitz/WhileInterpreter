@@ -7,10 +7,10 @@ import java.util.Map;
 
 public class Interpreter extends Visitor {
     final Program program;
-    final Map<String, Integer> valuation = new HashMap<>();
+    final Map<String, Integer> valuation = new HashMap<String, Integer>();
 
     public Map<String, Integer> getValuation() {
-        Map<String, Integer> result = new HashMap<>();
+        Map<String, Integer> result = new HashMap<String, Integer>();
         result.putAll(valuation);
         return result;
     }
