@@ -20,13 +20,6 @@ public class Interpreter extends ProgramVisitor {
         visit(program);
     }
 
-    public Interpreter(Program program, Map<String, Integer> valuation) {
-        this.program = program;
-        this.valuation.putAll(valuation);
-        visit(program);
-    }
-
-
     @Override
     public void visitAssignment(Assignment assignment) {
         Evaluator evaluator = new Evaluator(assignment.expression, valuation);
