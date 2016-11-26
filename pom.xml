@@ -42,7 +42,7 @@
                 <version>1.0-beta4</version>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <phase>compile</phase>
                         <goals>
                             <goal>docco</goal>
                         </goals>
