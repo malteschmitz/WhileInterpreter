@@ -1,5 +1,18 @@
+/*!! Expression */
+
+/*! # Addition */
+
+/*!- Header */
 package expression;
 
+/*!
+Eine `Addition` besteht aus einer `leftHandSide` und einer `rightHandSide`, die addiert werden sollen.
+
+Zum Beispiel
+    new Addition(new Identifier("x"), new Int(2))
+repräsentiert den Ausdruck
+    x + 2
+*/
 public class Addition extends Expression {
     public final Expression leftHandSide;
     public final Expression rightHandSide;
@@ -9,6 +22,7 @@ public class Addition extends Expression {
         this.rightHandSide = rightHandSide;
     }
 
+/*!- Hilfsmethoden */
     @Override
     public String toString() {
         return "(" + leftHandSide + " + " + rightHandSide + ")";
