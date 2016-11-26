@@ -1,0 +1,226 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html;charset=utf-8"><title>Parser.java</title><link href="../../../../css/bootstrap.min.css" rel="stylesheet" type="text/css"/><link href="../../../../css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/><link href="../../../../css/atlassian-docco.css" rel="stylesheet" type="text/css"/><link rel="stylesheet" class="codebrush light" title="IDEA" href="http://yandex.st/highlightjs/6.2/styles/idea.min.css"/><link rel="alternate stylesheet" class="codebrush light" title="Google Code" href="http://yandex.st/highlightjs/6.2/styles/googlecode.min.css"/><link rel="alternate stylesheet" class="codebrush light" title="GitHub" href="http://yandex.st/highlightjs/6.2/styles/github.min.css"/><link rel="alternate stylesheet" class="codebrush light" title="Visual Studio" href="http://yandex.st/highlightjs/6.2/styles/vs.min.css"/><link rel="alternate stylesheet" class="codebrush light" title="Magula" href="http://yandex.st/highlightjs/6.2/styles/magula.min.css"/><link rel="alternate stylesheet" class="codebrush dark" title="Zenburn" href="http://yandex.st/highlightjs/6.2/styles/zenburn.min.css"/><link rel="alternate stylesheet" class="codebrush dark" title="Arta" href="http://yandex.st/highlightjs/6.2/styles/arta.min.css"/><link rel="alternate stylesheet" class="codebrush dark" title="Monokai" href="http://yandex.st/highlightjs/6.2/styles/monokai.min.css"/><link rel="alternate stylesheet" class="codebrush dark" title="IR Black" href="http://yandex.st/highlightjs/6.2/styles/ir_black.min.css"/><link rel="alternate stylesheet" class="codebrush dark" title="Solarized Dark" href="http://yandex.st/highlightjs/6.2/styles/solarized_dark.min.css"/><script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script><script type="text/javascript" src="http://yandex.st/highlightjs/6.2/highlight.min.js"></script><script type="text/javascript" src="../../../../js/jquery.cookie.js"></script><script type="text/javascript" src="../../../../js/bootstrap.min.js"></script><script type="text/javascript" src="../../../../js/atlassian-docco.js"></script></head><body><div class="navbar navbar-fixed-top"><div class="navbar-inner"><div class="container-fluid"><a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="#">Parser.java</a><div class="nav-collapse"><ul class="nav"><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Index <b class="caret"></b></a><ul class="dropdown-menu"><li class="nav-header">Expression</li><li><a href="../../../../src/main/java/expression/Addition.java.html">Addition.java</a></li><li><a href="../../../../src/main/java/expression/Expression.java.html">Expression.java</a></li><li><a href="../../../../src/main/java/expression/Identifier.java.html">Identifier.java</a></li><li><a href="../../../../src/main/java/expression/Int.java.html">Int.java</a></li><li><a href="../../../../src/main/java/expression/Subtraction.java.html">Subtraction.java</a></li><li class="nav-header">Interpreter</li><li><a href="../../../../src/main/java/interpreter/Evaluator.java.html">Evaluator.java</a></li><li><a href="../../../../src/main/java/interpreter/Interpreter.java.html">Interpreter.java</a></li><li><a href="../../../../src/main/java/interpreter/InterpreterException.java.html">InterpreterException.java</a></li><li><a href="../../../../src/main/java/interpreter/Visitor.java.html">Visitor.java</a></li><li class="nav-header">Parser</li><li class="active"><a href="../../../../src/main/java/parser/Parser.java.html">Parser.java</a></li><li><a href="../../../../src/main/java/parser/SyntaxException.java.html">SyntaxException.java</a></li><li class="nav-header">Program</li><li><a href="../../../../src/main/java/program/Assignment.java.html">Assignment.java</a></li><li><a href="../../../../src/main/java/program/Composition.java.html">Composition.java</a></li><li><a href="../../../../src/main/java/program/Conditional.java.html">Conditional.java</a></li><li><a href="../../../../src/main/java/program/Loop.java.html">Loop.java</a></li><li><a href="../../../../src/main/java/program/Program.java.html">Program.java</a></li></ul></li><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Theme <b class="caret"></b></a><ul id="themeDropdown" class="dropdown-menu"></ul></li><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Layout <b class="caret"></b></a><ul class="dropdown-menu"><li class="active"><a href="#">Horizontal</a></li><li><a href="../../../../../vertical/src/main/java/parser/Parser.java.html">Vertical</a></li></ul></li></ul></div><!--/.nav-collapse --></div></div></div><div class="container-fluid docco-container"><div class="row-fluid"><div class="span12"><h1>Parser</h1><p>In order to parse simple while programs we use a <a href="https://en.wikipedia.org/wiki/Recursive_descent_parser">Recursive descent parser</a>. The syntax of our while programs are defined by the following grammar in <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form">Extended Backus-Naur Form (EBNF)</a>:</p>
+<pre><code>Prog = Id &quot;:=&quot; Expr |
+       Prog &quot;;&quot; Prog |
+      &quot;if&quot; &quot;(&quot; Expr &quot;)&quot; &quot;then&quot; &quot;{&quot; Prog &quot;}&quot; &quot;else&quot; &quot;{&quot; Prog &quot;}&quot; |
+      &quot;while&quot; &quot;(&quot; Expr &quot;)&quot; &quot;{&quot; Prog &quot;}&quot;
+Expr = Expr &quot;+&quot; Atom |
+       Expr &quot;-&quot; Atom |
+       Atom
+Atom = Id | Num | &quot;(&quot; Expr &quot;)&quot;
+</code></pre><p>The non-terminal <code>Num</code> can be derived into an arbitrary integer. <code>Id</code> can be derived into an arbitrary identifier consisting of the lower case characters from <code>a</code> to <code>z</code>.</p><p>Our parser takes the source code as argument and returns a <code>Program</code> object.</p></div></div><div id="section-0" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-0">0</a></span><div class="doctext hidden-doc"></div></div><div class="span6 code"><div class="hidden-code-line">------------------<a href="javascript:void(0)" class="hidden-code-toggle" index="0">Show  Header  Code (<span class="linecount"></span> lines)</a>------------------</div><pre class="hidden-code"><code class="java">package parser;
+
+import expression.*;
+import expression.Int;
+import program.*;
+
+import java.util.ArrayList;
+import java.util.List;</code></pre></div></div><div id="section-1" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-1">1</a></span><div class="doctext"><p><code>Parser</code> provides a constructor which takes the source code as argument. The created object provides the method <code>parse</code> which returns the parsed <code>Program</code> object.</p>
+<pre><code>Parser parser = new Parser(&quot;a := 1&quot;);
+Program program = parser.parse();
+</code></pre></div></div><div class="span6 code"><pre><code class="java">public class Parser {</code></pre></div></div><div id="section-2" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-2">2</a></span><div class="doctext"><p>The instance variable <code>input</code> contains the source code that should be parsed and <code>position</code> contains the current position of the parser in the <code>input</code> string. The following parsing methods each consider the characters of the <code>input</code> starting at <code>position</code>, e.g. <code>input.charAt(position)</code>. After consuming characters of the input the methods increment the <code>position</code>.</p></div></div><div class="span6 code"><pre><code class="java">    int position;
+    final String input;
+
+    public Parser(String input) {
+        this.input = input;
+    }</code></pre></div></div><div id="section-3" class="docco-section"><div class="doc"><span class="label label-info"><a style="color:white" href="#section-3">3</a></span><div class="doctext"><h2>The Basics</h2></div></div></div><div id="section-4" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-4">4</a></span><div class="doctext"><p>We start with defining a helper function that consumes whitespaces, by incrementing the <code>position</code> until the current character is not a whitespace.</p><p>Such a function is necessary, because we do the tokenization on the fly during the parsing. In more complex projects the <a href="https://en.wikipedia.org/wiki/Lexical_analysis#Tokenization">tokenization</a> would be an extra  pre-processing step which handles the whitespace removal and creates a stream of tokens out of the input string. </p></div></div><div class="span6 code"><pre><code class="java">    private void whitespace() {
+        while(position &lt; input.length() &amp;&amp; Character.isWhitespace(input.charAt(position))) {
+            position += 1;
+        }
+    }</code></pre></div></div><div id="section-5" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-5">5</a></span><div class="doctext"><p>Our parsing functions always want to parse something at the current position in the input and raise an exception if not possible. In order to implement the rules containing <em>or</em> we need either look-ahead or back tracking in order to decide which branch to take. In those cases we catch the exceptions raised by the called sub-parsers.</p><p>The <code>consume</code> method consumes the given string by incrementing the <code>position</code>. It raises a <code>SyntaxException</code>  if the given string is not the next token in the <code>input</code> at the current <code>position</code>. </p></div></div><div class="span6 code"><pre><code class="java">    private void consume(String token) {
+        whitespace();
+        if (position + token.length() &lt;= input.length() &amp;&amp; input.substring(position, position + token.length()).equals(token)) {
+            position += token.length();
+        } else {
+            throw new SyntaxException(token, position);
+        }
+    }</code></pre></div></div><div id="section-6" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-6">6</a></span><div class="doctext"><p>In some situations we want to perform a look-ahead: We want to test if the next token is the given one or not.  The <code>test</code> function calls the <code>consume</code> function defined above and returns if it raised an exception or not. </p></div></div><div class="span6 code"><pre><code class="java">    private boolean test(String token) {
+        int start = position;
+        boolean success;
+        try {
+            consume(token);
+            success = true;
+        } catch (SyntaxException se) {
+            success = false;
+        }
+        position = start;
+        return success;
+    }</code></pre></div></div><div id="section-7" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-7">7</a></span><div class="doctext"><h2>Expression</h2><p>Using the basic mechanisms defined above we can implement parsing functions for expressions as defined in our grammar:</p>
+<pre><code>Expr = Expr &quot;+&quot; Atom |
+       Expr &quot;-&quot; Atom |
+       Atom
+</code></pre><p>This rule is left recursive: If we want to parse an expression, we try to parse an addition first, which starts with an expression, so we parse an expression by trying to parse an addition first, which starts with an expression, so we parse an expression by ... In order to implement this rule we need to change it, so that the parsing process terminates:</p>
+<pre><code>Expr = Atom { (&quot;+&quot; | &quot;-&quot;) Atom }
+</code></pre><p>In the rule above we replaced the recursion with the repetition indicated by <code>{</code> and <code>}</code>. Parsing this repetitive rule involves two steps: Parsing the sequence of atoms and operators into a list</p>
+<pre><code>List&lt;OperatorWithExpression&gt;
+</code></pre><p>and translate this list into the real data structure afterwards.</p>
+<pre><code>An operator is either `PLUS` or `MINUS`. 
+</code></pre></div></div><div class="span6 code"><pre><code class="java">    private enum Operator { PLUS, MINUS }</code></pre></div></div><div id="section-8" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-8">8</a></span><div class="doctext"><p><code>OperatorWithExpression</code> stores a pair of an operator and the atom immediately following the operator. </p></div></div><div class="span6 code"><pre><code class="java">    private static class OperatorWithExpression {
+        private final Operator operator;
+        private final Expression expression;
+
+        OperatorWithExpression(Operator operator, Expression expression) {
+            this.operator = operator;
+            this.expression = expression;
+        }
+    }</code></pre></div></div><div id="section-9" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-9">9</a></span><div class="doctext"><p>Using this data structure we now can define the expression parser: </p></div></div><div class="span6 code"><pre><code class="java">    Expression expression() {</code></pre></div></div><div id="section-10" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-10">10</a></span><div class="doctext"><p>Parse the first atom </p></div></div><div class="span6 code"><pre><code class="java">        Expression firstAtom = atom();
+        List&lt;OperatorWithExpression&gt; moreAtoms = new ArrayList&lt;OperatorWithExpression&gt;();</code></pre></div></div><div id="section-11" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-11">11</a></span><div class="doctext"><p>Parse more operators and atoms while the helper function <code>testOperator()</code> indicates that the <code>operator()</code> parser  will succeed (without raising an expression). </p></div></div><div class="span6 code"><pre><code class="java">        while(testOperator()) {
+            Operator operator = operator();
+            Expression expression = atom();
+            moreAtoms.add(new OperatorWithExpression(operator, expression));
+        }</code></pre></div></div><div id="section-12" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-12">12</a></span><div class="doctext"><p>Translate the sequence of operator and atoms into the inductive <code>Addition</code> and <code>Subtraction</code> data structure. We start with the <code>firstAtom</code> and replace the <code>expression</code> for every element of the list  with an <code>Addition</code> or <code>Subtraction</code> combining the old <code>expression</code> and the current list element. </p></div></div><div class="span6 code"><pre><code class="java">        Expression expression = firstAtom;
+        for (OperatorWithExpression atom: moreAtoms) {
+            switch (atom.operator) {
+                case PLUS:
+                    expression = new Addition(expression, atom.expression);
+                    break;
+                case MINUS:
+                    expression = new Subtraction(expression, atom.expression);
+                    break;
+            }
+        }
+        return expression;
+    }</code></pre></div></div><div id="section-13" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-13">13</a></span><div class="doctext"><p>The <code>expression</code> parser above uses the <code>operator</code> parser defined below. </p></div></div><div class="span6 code"><pre><code class="java">    private Operator operator() {
+        whitespace();</code></pre></div></div><div id="section-14" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-14">14</a></span><div class="doctext"><p>Only check the character at the current position in the input if the current  position is a valid position in the input (and not after the end of the input). </p></div></div><div class="span6 code"><pre><code class="java">        char next = (char) 0;
+        if (position &lt; input.length()) {
+            next = input.charAt(position);
+            position += 1;
+        }
+        if (next == &#39;+&#39;) {
+            return Operator.PLUS;
+        } else if (next == &#39;-&#39;) {
+            return Operator.MINUS;
+        } else {
+            throw new SyntaxException(&quot;Operator&quot;, position);
+        }
+    }</code></pre></div></div><div id="section-15" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-15">15</a></span><div class="doctext"><p>In the <code>expression</code> parser above we used the method <code>testOperator</code> defined below which tests if the <code>operator</code> parser would succeed without throwing a <code>SyntaxException</code>. The implementation calls the <code>operator</code> parser in a <code>try</code> block and returns <code>false</code> if the exception was catched and <code>true</code>  otherwise. </p></div></div><div class="span6 code"><pre><code class="java">    private boolean testOperator() {
+        int start = position;
+        boolean result;
+        try {
+            operator();
+            result = true;
+        } catch (SyntaxException se) {
+            result = false;
+        }
+        position = start;
+        return result;
+    }</code></pre></div></div><div id="section-16" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-16">16</a></span><div class="doctext"><p>The rule for the non-terminal Atom</p>
+<pre><code>Atom = Id | Num | &quot;(&quot; Expr &quot;)&quot;
+</code></pre><p>can be directly translated into the following <code>atom</code> parser. We start by parsing an identifier. If this succeeds we are done. If this parser throws a <code>SyntaxException</code> we try the next option of the <em>or</em>: We parse a numeric literal. If the corresponding raises a <code>SyntaxException</code>, too, we continue with the atom in braces. If this still raises a <code>SyntaxException</code> we pass on this exception  to our caller (by not catching it). In this case we failed parsing an atom. </p></div></div><div class="span6 code"><pre><code class="java">    Expression atom() {
+        int start = position;
+        Expression result;
+        try {
+            result = identifier();
+        } catch (SyntaxException se) {</code></pre></div></div><div id="section-17" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-17">17</a></span><div class="doctext"><p>Reset the position. The <code>identifier</code> parser has failed, but it might have changed the global <code>position</code> before raising the <code>SyntaxException</code> so we need to reset the position before trying  another parser. </p></div></div><div class="span6 code"><pre><code class="java">            position = start;
+            try {
+                result = integer();
+            } catch (SyntaxException se2) {
+                position = start;
+                consume(&quot;(&quot;);
+                result = expression();
+                consume(&quot;)&quot;);
+            }
+        }
+        return result;
+    }</code></pre></div></div><div id="section-18" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-18">18</a></span><div class="doctext"><p>An identifier is a sequence of lower case letters. This helper functions checks if the given character  could be part of an identifier. </p></div></div><div class="span6 code"><pre><code class="java">    private boolean isLowerLetter(char ch) {
+        return ch &gt;= &#39;a&#39; &amp;&amp; ch &lt;= &#39;z&#39;;
+    }</code></pre></div></div><div id="section-19" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-19">19</a></span><div class="doctext"><p>In order to parse an identifier we increment the current <code>position</code> while the current character could be part  of an identifier. </p></div></div><div class="span6 code"><pre><code class="java">    Identifier identifier() {
+        whitespace();
+        int start = position;
+        while (position &lt; input.length() &amp;&amp; isLowerLetter(input.charAt(position))) {
+            position += 1;
+        }</code></pre></div></div><div id="section-20" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-20">20</a></span><div class="doctext"><p>We need to make sure that the identifier is not empty. </p></div></div><div class="span6 code"><pre><code class="java">        if (position &gt; start) {
+            return new Identifier(input.substring(start, position));
+        } else {
+            throw new SyntaxException(&quot;Identifier&quot;, position);
+        }
+    }</code></pre></div></div><div id="section-21" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-21">21</a></span><div class="doctext"><p>Parsing an integer follows more or less the same pattern as parsing an identifier (see above). </p></div></div><div class="span6 code"><pre><code class="java">    Expression integer() {
+        whitespace();
+        int start = position;</code></pre></div></div><div id="section-22" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-22">22</a></span><div class="doctext"><p>We check for a unary prefix minus first. </p></div></div><div class="span6 code"><pre><code class="java">        boolean minus = position &lt; input.length() &amp;&amp; input.charAt(position) == &#39;-&#39;;
+        if (minus) {
+            position += 1;
+        }</code></pre></div></div><div id="section-23" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-23">23</a></span><div class="doctext"><p>Now we check for at least one digit. </p></div></div><div class="span6 code"><pre><code class="java">        boolean digitsFound = false;
+        while (position &lt; input.length() &amp;&amp; Character.isDigit(input.charAt(position))) {
+            position += 1;
+            digitsFound = true;
+        }</code></pre></div></div><div id="section-24" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-24">24</a></span><div class="doctext"><p>In the end we relay on <code>Integer.parseInt</code> for translating the string that we found into a real integer and wrap the returned value in an <code>Int</code> to create an element of the <code>Expression</code>  data structure. </p></div></div><div class="span6 code"><pre><code class="java">        if (digitsFound) {
+            return new Int(Integer.parseInt(input.substring(start, position)));
+        } else {
+            throw new SyntaxException(&quot;Integer&quot;, position);
+        }
+    }</code></pre></div></div><div id="section-25" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-25">25</a></span><div class="doctext"><h2>Program</h2><p>Parsing a program is pretty straight forward if we are able to parse token, identifier and expressions using the parser functions defined in the last sections. There is only one problem left, that needs to be solved first. The rule</p>
+<pre><code>Prog = Id &quot;:=&quot; Expr |
+       Prog &quot;;&quot; Prog |
+      &quot;if&quot; &quot;(&quot; Expr &quot;)&quot; &quot;then&quot; &quot;{&quot; Prog &quot;}&quot; &quot;else&quot; &quot;{&quot; Prog &quot;}&quot; |
+      &quot;while&quot; &quot;(&quot; Expr &quot;)&quot; &quot;{&quot; Prog &quot;}&quot;
+</code></pre><p>is again recursive in a way that leads to an endless recursion. We basically apply the same rewriting as for the Expr rule and end up with</p>
+<pre><code>Prog = Stmt { &quot;;&quot; Stmt }
+Stmt = Id &quot;:=&quot; Expr |
+      &quot;if&quot; &quot;(&quot; Expr &quot;)&quot; &quot;then&quot; &quot;{&quot; Prog &quot;}&quot; &quot;else&quot; &quot;{&quot; Prog &quot;}&quot; |
+      &quot;while&quot; &quot;(&quot; Expr &quot;)&quot; &quot;{&quot; Prog &quot;}&quot;
+</code></pre><p>We start with parsing this new Prog non-terminal in the same way as we parse Expr in <code>expression</code>. In this case there is only one possible operator between the statements, the sequential operator <code>;</code>. This simplifies the situation as we do not need to store the operator. Apart from that simplification we apply the same idea with its two steps: 1) parsing the sequence and 2) creating the <code>Program</code> data structure from the  list. </p></div></div><div class="span6 code"><pre><code class="java">    Program program() {</code></pre></div></div><div id="section-26" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-26">26</a></span><div class="doctext"><p>Parsing the first statement which must be there </p></div></div><div class="span6 code"><pre><code class="java">        Program firstStatement = statement();</code></pre></div></div><div id="section-27" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-27">27</a></span><div class="doctext"><p>Parsing optional following statements seperated with <code>;</code> </p></div></div><div class="span6 code"><pre><code class="java">        List&lt;Program&gt; moreStatements = new ArrayList&lt;Program&gt;();
+        while (test(&quot;;&quot;)) {
+            consume(&quot;;&quot;);
+            Program statement = statement();
+            moreStatements.add(statement);
+        }</code></pre></div></div><div id="section-28" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-28">28</a></span><div class="doctext"><p>We use the first statement as initial result </p></div></div><div class="span6 code"><pre><code class="java">        Program program = firstStatement;</code></pre></div></div><div id="section-29" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-29">29</a></span><div class="doctext"><p>and then replace the result with a <code>Composition</code> combining the old result and the new statement. </p></div></div><div class="span6 code"><pre><code class="java">        for (Program statement: moreStatements) {
+            program = new Composition(program, statement);
+        }
+        return program;
+    }</code></pre></div></div><div id="section-30" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-30">30</a></span><div class="doctext"><p>Parsing a statement boils down to trying to parse</p>
+<ul>
+  <li>an assignment and if that fails</li>
+  <li>a conditional and if that fails</li>
+  <li>a loop and if that fails</li>
+  <li>fail completely.</li>
+</ul></div></div><div class="span6 code"><pre><code class="java">    Program statement() {
+        int start = position;
+        Program statement;
+        try {
+            statement = assignment();
+        } catch (SyntaxException se) {
+            position = start;
+            try {
+                statement = conditional();
+            } catch (SyntaxException se2) {
+                position = start;
+                statement = loop();
+            }
+        }
+        return statement;
+    }</code></pre></div></div><div id="section-31" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-31">31</a></span><div class="doctext"><p>Parsing a loop is very straight forward and just follows the rule  <code>&quot;while&quot; &quot;(&quot; Expr &quot;)&quot; &quot;{&quot; Prog &quot;}&quot;</code>. </p></div></div><div class="span6 code"><pre><code class="java">    Program loop() {
+        consume(&quot;while&quot;);
+        consume(&quot;(&quot;);
+        Expression condition = expression();
+        consume(&quot;)&quot;);
+        consume(&quot;{&quot;);
+        Program program = program();
+        consume(&quot;}&quot;);
+        return new Loop(condition, program);
+    }</code></pre></div></div><div id="section-32" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-32">32</a></span><div class="doctext"><p>Parsing a conditional simply follows the rule  <code>&quot;if&quot; &quot;(&quot; Expr &quot;)&quot; &quot;then&quot; &quot;{&quot; Prog &quot;}&quot; &quot;else&quot; &quot;{&quot; Prog &quot;}&quot;</code>. </p></div></div><div class="span6 code"><pre><code class="java">    Program conditional() {
+        consume(&quot;if&quot;);
+        consume(&quot;(&quot;);
+        Expression condition = expression();
+        consume(&quot;)&quot;);
+        consume(&quot;then&quot;);
+        consume(&quot;{&quot;);
+        Program thenCase = program();
+        consume(&quot;}&quot;);
+        consume(&quot;else&quot;);
+        consume(&quot;{&quot;);
+        Program elseCase = program();
+        consume(&quot;}&quot;);
+        return new Conditional(condition, thenCase, elseCase);
+    }</code></pre></div></div><div id="section-33" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-33">33</a></span><div class="doctext"><p>Parsing an assignment simply follows the rule <code>Id &quot;:=&quot; Expr</code>. </p></div></div><div class="span6 code"><pre><code class="java">    Program assignment() {
+        Identifier identifier = identifier();
+        consume(&quot;:=&quot;);
+        Expression expression = expression();
+        return new Assignment(identifier, expression);
+    }</code></pre></div></div><div id="section-34" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-34">34</a></span><div class="doctext"><h2>Checking The End</h2><p>Everything that remains to be done is checking that we reached the end of the input after we are done. As every parser only consumes as much from the input as needed, the <code>program</code> parser might end in the middle of the input string. In the following public interface method we call  the <code>program</code> parser and check that we have reached the end of the input afterwards. </p></div></div><div class="span6 code"><pre><code class="java">    public Program parse() {
+        position = 0;
+        Program program = program();</code></pre></div></div><div id="section-35" class="row-fluid docco-section"><div class="span6 doc"><span class="label label-info"><a style="color:white" href="#section-35">35</a></span><div class="doctext"><p>Whitespace is the only thing allowed after the program. </p></div></div><div class="span6 code"><pre><code class="java">        whitespace();
+        if (position &lt; input.length()) {
+            throw new SyntaxException(&quot;End of input&quot;, position);
+        }
+        return program;
+    }
+}</code></pre></div></div></div><div id="grabber"></div></body></html>

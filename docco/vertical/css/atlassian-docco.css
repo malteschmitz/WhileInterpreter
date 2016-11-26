@@ -1,0 +1,43 @@
+.code pre {
+    border: #3A87AD dashed thin;
+    border-right:0px;
+    white-space: pre !important;
+    word-wrap: normal !important;
+    color: #5e5e5e;
+}
+
+.code pre code {
+
+}
+
+body {
+    font-family: Arial, FreeSans, Helvetica, sans-serif;
+    font-size: 13px;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+}
+
+.docco-container
+{
+    margin-top: 50px;
+}
+
+.nav .nav-header {
+    text-transform: none;
+    font-size: 12px;
+}
+
+.dropdown-menu a {
+    font-size: 11px;
+}
+
+div.hidden-code-line, a.hidden-code-toggle {
+    color: #3A87AD;
+}
+
+.doctext{
+    margin-top:5px;
+}
+
