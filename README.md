@@ -41,7 +41,7 @@ javac -d target/classes src/main/java/*.java src/main/java/**/*.java
 
 ## Running
 
-You can the example code in `mult.whl` with
+You can run the example code in `mult.whl` with
 
 ```
 java -cp target/classes Main mult.whl
@@ -55,7 +55,7 @@ The expected output is
 
 ## Exercise
 
-In order to understand how this little application works, I suggest trying to extend is. For example you could try to implement the `++` operator which increments a variable. This has to be done in three steps
+In order to understand how this little application works, I suggest trying to extend it. For example you could try to implement the `++` operator which increments a variable. This has to be done in three steps
 
 1. Add a class `Increment` in the `program` package with the attribute `identifier` of type `Identifier` storing the name of the variable that will be incremented.
 
