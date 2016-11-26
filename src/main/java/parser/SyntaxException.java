@@ -5,7 +5,7 @@ SyntaxException
 ===============
 */
 
-/*- Header */
+/*!- Header */
 package parser;
 
 /*! A `SyntaxException` is raised by the function in the `Parser` if an expected was not found at the current

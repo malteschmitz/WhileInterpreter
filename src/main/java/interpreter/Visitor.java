@@ -12,7 +12,7 @@ and in Java this is typically implemented using the
 [Visitor Pattern](https://en.wikipedia.org/wiki/Visitor_pattern).
 */
 
-/*- Header */
+/*!- Header */
 package interpreter;
 
 

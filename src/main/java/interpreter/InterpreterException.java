@@ -5,7 +5,7 @@ InterpreterException
 ====================
 */
 
-/*- Header */
+/*!- Header */
 package interpreter;
 
 /*! The `InterpreterException` is raised if anything goes wrong during the evaluation of an `Expression` or

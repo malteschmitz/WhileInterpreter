@@ -20,7 +20,7 @@ with
 - an integer `z`.
 */
 
-/*- Header */
+/*!- Header */
 package interpreter;
 
 import expression.*;
