@@ -1,6 +1,9 @@
 /*!! Expression */
 
-/*! # Subtraction */
+/*!
+Subtraction
+===========
+*/
 
 /*!- Header */
 package expression;

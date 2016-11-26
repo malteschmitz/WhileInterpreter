@@ -1,6 +1,12 @@
 /*!! Expression*/
 
-/*! # Int */
+/*!
+Int_(eger)_
+===========
+
+In order to avoid confusion with Java's `Integer` auto-boxing class for the primitive `int` this wrapper is called
+`Int` instead of `Integer`.
+*/
 
 /*!- Header */
 package expression;

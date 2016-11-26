@@ -1,6 +1,9 @@
 /*!! Program*/
 
-/*! # Composition*/
+/*!
+Composition
+===========
+*/
 
 /*!- Header*/
 package program;
