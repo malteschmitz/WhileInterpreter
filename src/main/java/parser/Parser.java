@@ -66,7 +66,7 @@ public class Parser {
 
     Such a function is necessary, because we do the tokenization on the fly during the parsing. In more complex
     projects the [tokenization](https://en.wikipedia.org/wiki/Lexical_analysis#Tokenization) would be an extra
-    pre-processing step which handles the whitespace removal and creates a stream of tokens out of the input string.*/
+    pre-processing step which handles the whitespace removal and creates a stream of tokens out of the input string. */
     private void whitespace() {
         while(position < input.length() && Character.isWhitespace(input.charAt(position))) {
             position += 1;
@@ -79,7 +79,7 @@ public class Parser {
     sub-parsers.
 
     The `consume` method consumes the given string by incrementing the `position`. It raises a `SyntaxException`
-    if the given string is not the next token in the `input` at the current `position`.*/
+    if the given string is not the next token in the `input` at the current `position`. */
     private void consume(String token) {
         whitespace();
         if (position + token.length() <= input.length() && input.substring(position, position + token.length()).equals(token)) {
@@ -177,7 +177,7 @@ public class Parser {
     private Operator operator() {
         whitespace();
         /*! Only check the character at the current position in the input if the current
-        position is a valid position in the input (and not after the end of the input).*/
+        position is a valid position in the input (and not after the end of the input). */
         char next = (char) 0;
         if (position < input.length()) {
             next = input.charAt(position);
@@ -226,7 +226,7 @@ public class Parser {
         } catch (SyntaxException se) {
             /*! Reset the position. The `identifier` parser has failed, but it might have changed the global
             `position` before raising the `SyntaxException` so we need to reset the position before trying
-            another parser.*/
+            another parser. */
             position = start;
             try {
                 result = integer();
@@ -263,11 +263,11 @@ public class Parser {
         }
     }
 
-    /*! Parsing an integer follows more or less the same pattern as parsing an identifier (see above).*/
+    /*! Parsing an integer follows more or less the same pattern as parsing an identifier (see above). */
     Expression integer() {
         whitespace();
         int start = position;
-        /*! We check for a unary prefix minus first.*/
+        /*! We check for a unary prefix minus first. */
         boolean minus = position < input.length() && input.charAt(position) == '-';
         if (minus) {
             position += 1;
@@ -327,7 +327,7 @@ public class Parser {
         }
         /*! We use the first statement as initial result */
         Program program = firstStatement;
-        /*! and then replace the result with a `Composition` combining the old result and the new statement.*/
+        /*! and then replace the result with a `Composition` combining the old result and the new statement. */
         for (Program statement: moreStatements) {
             program = new Composition(program, statement);
         }
@@ -335,10 +335,12 @@ public class Parser {
     }
 
     /*! Parsing a statement boils down to trying to parse
+
     - an assignment and if that fails
     - a conditional and if that fails
     - a loop and if that fails
-    - fail completely.*/
+    - fail completely.
+    */
     Program statement() {
         int start = position;
         Program statement;
@@ -357,7 +359,7 @@ public class Parser {
     }
 
     /*! Parsing a loop is very straight forward and just follows the rule
-    `"while" "(" Expr ")" "{" Prog "}"`.*/
+    `"while" "(" Expr ")" "{" Prog "}"`. */
     Program loop() {
         consume("while");
         consume("(");
@@ -370,7 +372,7 @@ public class Parser {
     }
 
     /*! Parsing a conditional simply follows the rule
-    `"if" "(" Expr ")" "then" "{" Prog "}" "else" "{" Prog "}"`.*/
+    `"if" "(" Expr ")" "then" "{" Prog "}" "else" "{" Prog "}"`. */
     Program conditional() {
         consume("if");
         consume("(");
@@ -387,7 +389,7 @@ public class Parser {
         return new Conditional(condition, thenCase, elseCase);
     }
 
-    /*! Parsing an assignment simply follows the rule `Id ":=" Expr`.*/
+    /*! Parsing an assignment simply follows the rule `Id ":=" Expr`. */
     Program assignment() {
         Identifier identifier = identifier();
         consume(":=");
@@ -402,12 +404,12 @@ public class Parser {
     Everything that remains to be done is checking that we reached the end of the input after we
     are done. As every parser only consumes as much from the input as needed, the `program` parser
     might end in the middle of the input string. In the following public interface method we call
-    the `program` parser and check that we have reached the end of the input afterwards.*/
+    the `program` parser and check that we have reached the end of the input afterwards. */
 
     public Program parse() {
         position = 0;
         Program program = program();
-        /*! Whitespace is the only thing allowed after the program.*/
+        /*! Whitespace is the only thing allowed after the program. */
         whitespace();
         if (position < input.length()) {
             throw new SyntaxException("End of input", position);

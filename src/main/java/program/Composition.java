@@ -1,11 +1,11 @@
-/*!! Program*/
+/*!! Program */
 
 /*!
 Composition
 ===========
 */
 
-/*!- Header*/
+/*!- Header */
 package program;
 
 /*! A `Composition` combines two programs (`first` and `second`) with the intended semantics of sequential

@@ -1,11 +1,11 @@
-/*!! Expression*/
+/*!! Expression */
 
 /*!
 Identifier
 ==========
 */
 
-/*! Header*/
+/*!- Header */
 package expression;
 
 /*! An `Identifier` consists only of the `name` of the identifier. This class is only needed as a wrapper which allows

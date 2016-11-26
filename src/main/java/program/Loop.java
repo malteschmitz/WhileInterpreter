@@ -1,11 +1,11 @@
-/*!! Program*/
+/*!! Program */
 
 /*!
 Loop
 ====
 */
 
-/*!- Header*/
+/*!- Header */
 package program;
 
 import expression.Expression;

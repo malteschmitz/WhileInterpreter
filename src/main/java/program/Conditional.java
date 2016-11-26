@@ -1,11 +1,11 @@
-/*!! Program*/
+/*!! Program */
 
 /*!
 Conditional
 ===========
 */
 
-/*!- Header*/
+/*!- Header */
 package program;
 
 import expression.Expression;
@@ -37,7 +37,7 @@ public class Conditional extends Program {
 
     }
 
-    /*!- String serialization*/
+    /*!- String serialization */
     @Override
     public String toString() {
         return "if (" + condition + ") then { " + thenCase +  " } else { " + elseCase + " }";

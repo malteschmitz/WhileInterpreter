@@ -1,4 +1,4 @@
-/*!! Program*/
+/*!! Program */
 
 /*!
 Assignment
@@ -38,7 +38,7 @@ public class Assignment extends Program {
         return identifier + " := " + expression;
     }
 
-    /*!- generated equals method*/
+    /*!- generated equals method */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
