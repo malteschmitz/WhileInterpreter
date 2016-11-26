@@ -1,6 +1,26 @@
+/*!! Expression*/
+
+/*! # Identifier*/
+
+/*! Header*/
 package expression;
 
+/*! An `Identifier` consists only of the `name` of the identifier. This class is only needed as a wrapper which allows
+us to use an identifier as an expression. */
 public class Identifier extends Expression {
+    public final String name;
+
+    public Identifier(String name) {
+        this.name = name;
+    }
+
+    /*!- String serialization */
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    /*!- generated equals implementation */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -10,21 +30,5 @@ public class Identifier extends Expression {
 
         return name.equals(that.name);
 
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
-
-    @Override
-    public int hashCode() {
-        return name.hashCode();
-    }
-
-    public final String name;
-
-    public Identifier(String name) {
-        this.name = name;
     }
 }

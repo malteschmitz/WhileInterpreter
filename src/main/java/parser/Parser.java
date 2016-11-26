@@ -1,7 +1,12 @@
 /*!! Parser */
 /*!
+
 # Parser
-Dieser [rekursiv absteigende Parser](https://de.wikipedia.org/wiki/Rekursiver_Abstieg) versteht sehr einfache While-Programme, die folgender Grammatik in [EBNF](https://de.wikipedia.org/wiki/Erweiterte_Backus-Naur-Form) genügen:
+
+In order to parse simple while programs we use a
+[Recursive descent parser](https://en.wikipedia.org/wiki/Recursive_descent_parser). The syntax of our while programs
+are defined by the following grammar in
+[Extended Backus-Naur Form (EBNF)](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form):
 
     Prog = Id ":=" Expr |
            Prog ";" Prog |
@@ -12,10 +17,10 @@ Dieser [rekursiv absteigende Parser](https://de.wikipedia.org/wiki/Rekursiver_Ab
            Atom
     Atom = Id | Num | "(" Expr ")"
 
-Dabei kann `Num` direkt zu einer beliebigen ganzen Zahl und `Id` direkt zu einem beliebigen Bezeichner aus den Zeichen
-`a` bis `z` abgeleitet werden.
+The non-terminal `Num` can be derived into an arbitrary integer. `Id` can be derived into an arbitrary identifier
+consisting of the lower case characters from `a` to `z`.
 
-Der Parser nimmt einen String mit dem Quelltext entgegen und erzeugt daraus ein `Program`.
+Our parser takes the source code as argument and returns a `Program` object.
 */
 
 /*!- Header */
@@ -29,26 +34,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*!
-Die Klasse `Parser` implementiert den Parser. Sie wird verwendet, indem dem Konstruktor der zu parsende Quelltext
-übergeben wird. Anschließend kann die Methide `parse` aufgerufen werden, die das geparste `Program` zurückgibt.
+`Parser` provides a constructor which takes the source code as argument. The created object provides the method
+`parse` which returns the parsed `Program` object.
 
     Parser parser = new Parser("a := 1");
     Program program = parser.parse();
 */
 public class Parser {
 
-/*!
-Die Instanzvariable `input` hält den zu parsenden Quelltext und in `position` steht die aktuelle Position des Parsers.
-Alle folgenden Methoden betrachten den Quelltext jeweils ab der aktuellen Position und erhöhen diese, wenn Zeichen
-des Quelltextes geparsed wurden.
-*/
+    /*!
+    The instance variable `input` contains the source code that should be parsed and `position` contains the current
+    position of the parser in the `input` string. The following parsing methods each consider the characters of the
+    `input` starting at `position`, e.g. `input.charAt(position)`. After consuming characters of the input the methods
+    increment the `position`.
+    */
     int position;
-    String input;
+    final String input;
 
     public Parser(String input) {
         this.input = input;
     }
-
+    
     public Program parse() {
         position = 0;
         Program program = program();

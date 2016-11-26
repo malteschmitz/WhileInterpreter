@@ -1,4 +1,9 @@
+/*!! Program*/
+
+/*! # Program */
+
+/*!- Header*/
 package program;
 
-abstract public class Program {
-}
+/*! `Program` is the abstract common class for programs that can be exeuted using the `Interpreter`. */
+abstract public class Program { }

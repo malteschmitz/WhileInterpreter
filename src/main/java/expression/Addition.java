@@ -6,11 +6,14 @@
 package expression;
 
 /*!
-Eine `Addition` besteht aus einer `leftHandSide` und einer `rightHandSide`, die addiert werden sollen.
+An `Addition` consists of a `leftHandSide` and a `rightHandSide` expression, which are supposed to be added.
 
-Zum Beispiel
+For example
+
     new Addition(new Identifier("x"), new Int(2))
-repräsentiert den Ausdruck
+
+represents the code
+
     x + 2
 */
 public class Addition extends Expression {
@@ -22,12 +25,13 @@ public class Addition extends Expression {
         this.rightHandSide = rightHandSide;
     }
 
-/*!- Hilfsmethoden */
+    /*!- String serialization */
     @Override
     public String toString() {
         return "(" + leftHandSide + " + " + rightHandSide + ")";
     }
 
+    /*!- Generated equals implementation */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -38,12 +42,5 @@ public class Addition extends Expression {
         if (!leftHandSide.equals(addition.leftHandSide)) return false;
         return rightHandSide.equals(addition.rightHandSide);
 
-    }
-
-    @Override
-    public int hashCode() {
-        int result = leftHandSide.hashCode();
-        result = 31 * result + rightHandSide.hashCode();
-        return result;
     }
 }

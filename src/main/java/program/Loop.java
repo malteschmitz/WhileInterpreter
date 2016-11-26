@@ -1,7 +1,14 @@
+/*!! Program*/
+
+/*! # Loop */
+
+/*!- Header*/
 package program;
 
 import expression.Expression;
 
+/*! A `Loop` consists of a `condition` and a `program` with the intended semantics of execution the `program` while
+the `condition` evaluates to a non-zero value. */
 public class Loop extends Program {
     public final Expression condition;
     public final Program program;
@@ -11,6 +18,13 @@ public class Loop extends Program {
         this.program = program;
     }
 
+    /*!- String serialization */
+    @Override
+    public String toString() {
+        return "while (" + condition + ") { " + program +  " }";
+    }
+
+    /*!- generated equals implementation */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -21,17 +35,5 @@ public class Loop extends Program {
         if (!condition.equals(loop.condition)) return false;
         return program.equals(loop.program);
 
-    }
-
-    @Override
-    public String toString() {
-        return "while (" + condition + ") { " + program +  " }";
-    }
-
-    @Override
-    public int hashCode() {
-        int result = condition.hashCode();
-        result = 31 * result + program.hashCode();
-        return result;
     }
 }
