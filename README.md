@@ -55,24 +55,24 @@ The expected output is
 
 ## Exercise
 
-In order to understand how this little application works, I suggest trying to extend it. For example you could try to implement the `++` operator which increments a variable. This has to be done in three steps
+In order to understand how this little application works, I suggest trying to extend it. For example you could try to implement the addition assignment `+=` statement which assigns a variable to its current value plus the evaluation of the expression on the right hand side. This has to be done in three steps
 
-1. Add a class `Increment` in the `program` package with the attribute `identifier` of type `Identifier` storing the name of the variable that will be incremented.
+1. Add a class `AdditionAssignment` in the `program` package with the attribute `identifier` of type `Identifier` storing the name of the variable that will be assigned and the attributed `expression` of type `Expression` storing the right hand side expression.
 
 2. Update the `Parser` by extending the `Stmt` rule
 
   ```
-  Stmt = ... | Id "++"
+  Stmt = ... | Id "+=" Expr
   ```
 
-3. Update the `Interpreter` by extending the `sem` function either by rewriting the increment operator as an assignment
+3. Update the `Interpreter` by extending the `sem` function either by rewriting the new addition assignment statement as an assignment and an addition
 
   ```
-  sem(x "++", v) = sem(x ":=" x "+" 1, v)
+  sem(x "+=" e, v) = sem(x ":=" x "+" e, v)
   ```
 
-  or by directly applying the incrementation
+  or by directly applying the assignment and the addition
 
   ```
-  sem(x "++", v) = v.update(x, v(x) + 1)
+  sem(x "+=" e, v) = v.update(x, v(x) + eval(e, v))
   ```
