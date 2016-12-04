@@ -49,8 +49,7 @@ The semantic function `sem` passes along the variable valuation `v`. In the `Int
 as global variable `valuation`. Because of the in-order execution this global variable always represents the state
 of the `v` passed to the semantic function `sem`. */
 public class Interpreter extends Visitor {
-    final Program program;
-    final Map<String, Integer> valuation = new HashMap<String, Integer>();
+    private final Map<String, Integer> valuation = new HashMap<String, Integer>();
 
     public Map<String, Integer> getValuation() {
         Map<String, Integer> result = new HashMap<String, Integer>();
@@ -59,7 +58,6 @@ public class Interpreter extends Visitor {
     }
 
     public Interpreter(Program program) {
-        this.program = program;
         visit(program);
     }
 
@@ -68,7 +66,7 @@ public class Interpreter extends Visitor {
     */
     public void visitAssignment(Assignment assignment) {
         Evaluator evaluator = new Evaluator(assignment.expression, valuation);
-        valuation.put(assignment.identifier.name, evaluator.eval());
+        valuation.put(assignment.identifier.name, evaluator.getValue());
     }
 
     /*!
@@ -86,7 +84,7 @@ public class Interpreter extends Visitor {
     */
     public void visitConditional(Conditional conditional) {
         Evaluator evaluator = new Evaluator(conditional.condition, valuation);
-        if (evaluator.eval() != 0) {
+        if (evaluator.getValue() != 0) {
             visit(conditional.thenCase);
         } else {
             visit(conditional.elseCase);
@@ -100,7 +98,7 @@ public class Interpreter extends Visitor {
     */
     public void visitLoop(Loop loop) {
         Evaluator evaluator = new Evaluator(loop.condition, valuation);
-        if (evaluator.eval() != 0) {
+        if (evaluator.getValue() != 0) {
             visit(new Composition(loop.program, loop));
         }
     }

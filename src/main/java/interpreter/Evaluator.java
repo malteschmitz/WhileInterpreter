@@ -34,23 +34,22 @@ takes an `Expression` in the constructor and provides a method `eval()` which ev
 the given expression and returns the result as an integer. For a given `expression` of type `Expression`
 it can be used as follows
 
-    Evaluator evaluator = new Evaluator(expression)
-    System.out.println(evaluator.eval());
+    Evaluator evaluator = new Evaluator(expression, valuation)
+    System.out.println(evaluator.getValue());
 
 The evaluation function `eval` takes the variable valuation `v`, which is passed on recursively. As the valuation
 is not changed during the evaluation process, it can be stored in a global variable which is not changed. */
 public class Evaluator extends Visitor<Integer> {
-
-    final Expression expression;
-    final Map<String, Integer> valuation = new HashMap<String, Integer>();
+    private final int value;
+    private final Map<String, Integer> valuation = new HashMap<String, Integer>();
 
     public Evaluator(Expression expression, Map<String, Integer> valuation) {
-        this.expression = expression;
         this.valuation.putAll(valuation);
+        value = visit(expression);
     }
 
-    public int eval() {
-        return visit(expression);
+    public int getValue() {
+        return value;
     }
 
     /*!
