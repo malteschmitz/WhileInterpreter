@@ -22,12 +22,6 @@ public class Int extends Expression {
         this.value = value;
     }
 
-    /*!- String serialization */
-    @Override
-    public String toString() {
-        return Integer.toString(value);
-    }
-
     /*!- generated equals implementation */
     @Override
     public boolean equals(Object o) {

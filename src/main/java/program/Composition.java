@@ -19,12 +19,6 @@ public class Composition extends Program {
         this.second = second;
     }
 
-    /*!- String serialization */
-    @Override
-    public String toString() {
-        return first + " ; " + second;
-    }
-
     /*!- generated equals implementation */
     @Override
     public boolean equals(Object o) {

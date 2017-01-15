@@ -21,12 +21,6 @@ public class Loop extends Program {
         this.program = program;
     }
 
-    /*!- String serialization */
-    @Override
-    public String toString() {
-        return "while (" + condition + ") { " + program +  " }";
-    }
-
     /*!- generated equals implementation */
     @Override
     public boolean equals(Object o) {

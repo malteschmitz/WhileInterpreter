@@ -28,12 +28,6 @@ public class Subtraction extends Expression {
         this.rightHandSide = rightHandSide;
     }
 
-    /*!- String serialization */
-    @Override
-    public String toString() {
-        return "(" + leftHandSide + " - " + rightHandSide + ")";
-    }
-
     /*!- generated equals implementation */
     @Override
     public boolean equals(Object o) {
