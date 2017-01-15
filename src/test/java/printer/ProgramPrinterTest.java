@@ -27,32 +27,32 @@ public class ProgramPrinterTest {
 
     @Test
     public void testVisitAssignment() {
-        ProgramPrinter printer = new ProgramPrinter(assignment);
-        assertEquals(assignmentCode, printer.getValue());
+        ProgramPrinter printer = new ProgramPrinter();
+        assertEquals(assignmentCode, printer.getValue(assignment));
     }
 
     @Test
     public void testVisitComposition() {
-        ProgramPrinter printer = new ProgramPrinter(composition);
-        assertEquals(compositionCode, printer.getValue());
+        ProgramPrinter printer = new ProgramPrinter();
+        assertEquals(compositionCode, printer.getValue(composition));
     }
 
     @Test
     public void testVisitConditional() {
-        ProgramPrinter printer = new ProgramPrinter(conditional);
-        assertEquals(conditionalCode, printer.getValue());
+        ProgramPrinter printer = new ProgramPrinter();
+        assertEquals(conditionalCode, printer.getValue(conditional));
     }
 
     @Test
     public void testVisitLoop() {
-        ProgramPrinter printer = new ProgramPrinter(loop);
-        assertEquals(loopCode, printer.getValue());
+        ProgramPrinter printer = new ProgramPrinter();
+        assertEquals(loopCode, printer.getValue(loop));
     }
 
     @Test
     public void testVisitProgram() {
-        ProgramPrinter printer = new ProgramPrinter(program);
-        assertEquals(programCode, printer.getValue());
+        ProgramPrinter printer = new ProgramPrinter();
+        assertEquals(programCode, printer.getValue(program));
     }
 
 }

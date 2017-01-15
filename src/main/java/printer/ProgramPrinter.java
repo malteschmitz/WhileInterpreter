@@ -1,19 +1,27 @@
+/*!! Printer */
+
+/*!
+ProgramPrinter
+==============
+
+The `ProgramPrinter` is used for string serialization of a given `Program`.
+*/
+
+/*!- Header */
 package printer;
 
 import interpreter.Visitor;
 import program.*;
 
+/*!
+The `ProgramPrinter` implements the string serialization with the help of the
+[Visitor](${basePath}/src/main/java/interpreter/Visitor.java.html).
+*/
 public class ProgramPrinter extends Visitor<String> {
-    private final String value;
-
-    public ProgramPrinter(Program program) {
-        value = visit(program);
-    }
-
+    /*!- Visit functions */
     public String visitAssignment(Assignment assignment) {
-        ExpressionPrinter identifierPrinter = new ExpressionPrinter(assignment.identifier);
-        ExpressionPrinter expressionPrinter = new ExpressionPrinter(assignment.expression);
-        return identifierPrinter.getValue() + " := " + expressionPrinter.getValue();
+        ExpressionPrinter printer = new ExpressionPrinter();
+        return printer.getValue(assignment.identifier) + " := " + printer.getValue(assignment.expression);
     }
 
     public String visitComposition(Composition composition) {
@@ -21,16 +29,20 @@ public class ProgramPrinter extends Visitor<String> {
     }
 
     public String visitConditional(Conditional conditional) {
-        ExpressionPrinter conditionPrinter = new ExpressionPrinter(conditional.condition);
-        return "if (" + conditionPrinter.getValue() + ") then { " + visit(conditional.thenCase) +  " } else { " + visit(conditional.elseCase) + " }";
+        ExpressionPrinter printer = new ExpressionPrinter();
+        return "if (" + printer.getValue(conditional.condition) + ") then { " + visit(conditional.thenCase) +  " } else { " + visit(conditional.elseCase) + " }";
     }
 
     public String visitLoop(Loop loop) {
-        ExpressionPrinter conditionPrinter = new ExpressionPrinter(loop.condition);
-        return "while (" + conditionPrinter.getValue() + ") { " + visit(loop.program) +  " }";
+        ExpressionPrinter printer = new ExpressionPrinter();
+        return "while (" + printer.getValue(loop.condition) + ") { " + visit(loop.program) +  " }";
     }
 
-    public String getValue() {
-        return value;
+    /*!
+    The `getValue` function takes a `Program` instance as an argument and returns
+    the string serialisation of the given program.
+    */
+    public String getValue(Program program) {
+        return visit(program);
     }
 }

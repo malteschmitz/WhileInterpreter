@@ -1,15 +1,24 @@
+/*!! Printer */
+
+/*!
+ExpressionPrinter
+=================
+
+The `ExpressionPrinter` is used for string serialization of a given `Expression`.
+*/
+
+/*!- Header */
 package printer;
 
 import expression.*;
 import interpreter.Visitor;
 
+/*!
+The `ExpressionPrinter` implements the string serialization with the help of the
+[Visitor](${basePath}/src/main/java/interpreter/Visitor.java.html).
+*/
 public class ExpressionPrinter extends Visitor<String> {
-    private final String value;
-
-    public ExpressionPrinter(Expression expression) {
-        value = visit(expression);
-    }
-
+    /*!- Visit functions */
     public String visitAddition(Addition addition) {
         return visit(addition.leftHandSide) + " + " + visit(addition.rightHandSide);
     }
@@ -26,7 +35,11 @@ public class ExpressionPrinter extends Visitor<String> {
         return visit(subtraction.leftHandSide) + " - " + visit(subtraction.rightHandSide);
     }
 
-    public String getValue() {
-        return value;
+    /*!
+    The `getValue` function takes an `Expression` instance as an argument and returns
+    the string serialisation of the given expression.
+    */
+    public String getValue(Expression expression) {
+        return visit(expression);
     }
 }

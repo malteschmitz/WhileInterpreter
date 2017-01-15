@@ -5,9 +5,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by nils on 15.01.2017.
- */
 public class ExpressionPrinterTest {
     final String identifierCode = "a";
     final Identifier identifier = new Identifier(identifierCode);
@@ -24,26 +21,26 @@ public class ExpressionPrinterTest {
 
     @Test
     public void testVisitAddition() {
-        ExpressionPrinter printer = new ExpressionPrinter(addition);
-        assertEquals(additionCode, printer.getValue());
+        ExpressionPrinter printer = new ExpressionPrinter();
+        assertEquals(additionCode, printer.getValue(addition));
     }
 
     @Test
     public void testVisitIdentifier() {
-        ExpressionPrinter printer = new ExpressionPrinter(identifier);
-        assertEquals(identifierCode, printer.getValue());
+        ExpressionPrinter printer = new ExpressionPrinter();
+        assertEquals(identifierCode, printer.getValue(identifier));
     }
 
     @Test
     public void testVisitInt() {
-        ExpressionPrinter printer = new ExpressionPrinter(integer);
-        assertEquals(integerCode, printer.getValue());
+        ExpressionPrinter printer = new ExpressionPrinter();
+        assertEquals(integerCode, printer.getValue(integer));
     }
 
     @Test
     public void testVisitSubtraction() {
-        ExpressionPrinter printer = new ExpressionPrinter(subtraction);
-        assertEquals(subtractionCode, printer.getValue());
+        ExpressionPrinter printer = new ExpressionPrinter();
+        assertEquals(subtractionCode, printer.getValue(subtraction));
     }
 
 }
