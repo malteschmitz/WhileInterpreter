@@ -11,7 +11,7 @@ public class ExpressionPrinter extends Visitor<String> {
     }
 
     public String visitAddition(Addition addition) {
-        return "(" + visit(addition.leftHandSide) + " + " + visit(addition.rightHandSide) + ")";
+        return visit(addition.leftHandSide) + " + " + visit(addition.rightHandSide);
     }
 
     public String visitIdentifier(Identifier identifier) {
@@ -23,7 +23,7 @@ public class ExpressionPrinter extends Visitor<String> {
     }
 
     public String visitSubtraction(Subtraction subtraction) {
-        return "(" + visit(subtraction.leftHandSide) + " - " + visit(subtraction.rightHandSide) + ")";
+        return visit(subtraction.leftHandSide) + " - " + visit(subtraction.rightHandSide);
     }
 
     public String getValue() {
