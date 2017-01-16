@@ -18,29 +18,26 @@ public class ExpressionPrinterTest {
     final String subtractionCode = "1 - a";
     final Subtraction subtraction = new Subtraction(new Int(1), new Identifier("a"));
 
+    final ExpressionPrinter printer = new ExpressionPrinter();
 
     @Test
     public void testVisitAddition() {
-        ExpressionPrinter printer = new ExpressionPrinter();
-        assertEquals(additionCode, printer.getValue(addition));
+        assertEquals(additionCode, printer.print(addition));
     }
 
     @Test
     public void testVisitIdentifier() {
-        ExpressionPrinter printer = new ExpressionPrinter();
-        assertEquals(identifierCode, printer.getValue(identifier));
+        assertEquals(identifierCode, printer.print(identifier));
     }
 
     @Test
     public void testVisitInt() {
-        ExpressionPrinter printer = new ExpressionPrinter();
-        assertEquals(integerCode, printer.getValue(integer));
+        assertEquals(integerCode, printer.print(integer));
     }
 
     @Test
     public void testVisitSubtraction() {
-        ExpressionPrinter printer = new ExpressionPrinter();
-        assertEquals(subtractionCode, printer.getValue(subtraction));
+        assertEquals(subtractionCode, printer.print(subtraction));
     }
 
 }

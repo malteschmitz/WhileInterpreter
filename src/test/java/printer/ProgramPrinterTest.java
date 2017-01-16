@@ -25,34 +25,31 @@ public class ProgramPrinterTest {
     final String programCode = compositionCode + " ; " + loopCode + " ; " + conditionalCode;
     final Program program = new Composition(new Composition(composition, loop), conditional);
 
+    final ProgramPrinter printer = new ProgramPrinter();
+
     @Test
     public void testVisitAssignment() {
-        ProgramPrinter printer = new ProgramPrinter();
-        assertEquals(assignmentCode, printer.getValue(assignment));
+        assertEquals(assignmentCode, printer.print(assignment));
     }
 
     @Test
     public void testVisitComposition() {
-        ProgramPrinter printer = new ProgramPrinter();
-        assertEquals(compositionCode, printer.getValue(composition));
+        assertEquals(compositionCode, printer.print(composition));
     }
 
     @Test
     public void testVisitConditional() {
-        ProgramPrinter printer = new ProgramPrinter();
-        assertEquals(conditionalCode, printer.getValue(conditional));
+        assertEquals(conditionalCode, printer.print(conditional));
     }
 
     @Test
     public void testVisitLoop() {
-        ProgramPrinter printer = new ProgramPrinter();
-        assertEquals(loopCode, printer.getValue(loop));
+        assertEquals(loopCode, printer.print(loop));
     }
 
     @Test
     public void testVisitProgram() {
-        ProgramPrinter printer = new ProgramPrinter();
-        assertEquals(programCode, printer.getValue(program));
+        assertEquals(programCode, printer.print(program));
     }
 
 }

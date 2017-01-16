@@ -18,10 +18,10 @@ The `ProgramPrinter` implements the string serialization with the help of the
 [Visitor](${basePath}/src/main/java/interpreter/Visitor.java.html).
 */
 public class ProgramPrinter extends Visitor<String> {
-    /*!- Visit functions */
+    private final ExpressionPrinter printer = new ExpressionPrinter();
+
     public String visitAssignment(Assignment assignment) {
-        ExpressionPrinter printer = new ExpressionPrinter();
-        return printer.getValue(assignment.identifier) + " := " + printer.getValue(assignment.expression);
+        return printer.print(assignment.identifier) + " := " + printer.print(assignment.expression);
     }
 
     public String visitComposition(Composition composition) {
@@ -29,20 +29,18 @@ public class ProgramPrinter extends Visitor<String> {
     }
 
     public String visitConditional(Conditional conditional) {
-        ExpressionPrinter printer = new ExpressionPrinter();
-        return "if (" + printer.getValue(conditional.condition) + ") then { " + visit(conditional.thenCase) +  " } else { " + visit(conditional.elseCase) + " }";
+        return "if (" + printer.print(conditional.condition) + ") then { " + visit(conditional.thenCase) +  " } else { " + visit(conditional.elseCase) + " }";
     }
 
     public String visitLoop(Loop loop) {
-        ExpressionPrinter printer = new ExpressionPrinter();
-        return "while (" + printer.getValue(loop.condition) + ") { " + visit(loop.program) +  " }";
+        return "while (" + printer.print(loop.condition) + ") { " + visit(loop.program) +  " }";
     }
 
     /*!
-    The `getValue` function takes a `Program` instance as an argument and returns
-    the string serialisation of the given program.
+    The `print` function takes a `Program` instance as an argument and returns
+    the string serialization of the given program.
     */
-    public String getValue(Program program) {
+    public String print(Program program) {
         return visit(program);
     }
 }
