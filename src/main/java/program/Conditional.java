@@ -36,10 +36,4 @@ public class Conditional extends Program {
         return elseCase.equals(that.elseCase);
 
     }
-
-    /*!- String serialization */
-    @Override
-    public String toString() {
-        return "if (" + condition + ") then { " + thenCase +  " } else { " + elseCase + " }";
-    }
 }

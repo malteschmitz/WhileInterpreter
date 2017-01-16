@@ -17,12 +17,6 @@ public class Identifier extends Expression {
         this.name = name;
     }
 
-    /*!- String serialization */
-    @Override
-    public String toString() {
-        return name;
-    }
-
     /*!- generated equals implementation */
     @Override
     public boolean equals(Object o) {

@@ -32,12 +32,6 @@ public class Assignment extends Program {
         this.expression = expression;
     }
 
-    /*!- String serialization */
-    @Override
-    public String toString() {
-        return identifier + " := " + expression;
-    }
-
     /*!- generated equals method */
     @Override
     public boolean equals(Object o) {
