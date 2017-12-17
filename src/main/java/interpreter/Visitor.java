@@ -17,7 +17,7 @@ package interpreter;
 
 
 /*! This `Visitor` is implemented using
-[Reflection](https://en.wikipedia.org/wiki/Reflection_(computer_programming)). That is kind of cheating, but simplifies
+[Reflection](http://www.oracle.com/technetwork/articles/java/javareflection-1536171.html). That is kind of cheating, but simplifies
 the classical Visitor pattern a lot. Of course the performance is bad, but performance is not an issue in this little
 demonstration and actually there are a lot of other performance issues as well. */
 public abstract class Visitor<T> {
