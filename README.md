@@ -44,7 +44,7 @@ The code is documented in a literate programming style using [Atlassian Docco](h
   - [Loop.java](https://malteschmitz.github.io/WhileInterpreter/docco/vertical/src/main/java/program/Loop.java.html)
   - [Program.java](https://malteschmitz.github.io/WhileInterpreter/docco/vertical/src/main/java/program/Program.java.html)
 
-Start with the [Parser](https://malteschmitz.github.io/WhileInterpreter/docco/vertical/src/main/java/parser/Parser.java.html) and the [Interpreter](https://malteschmitz.github.io/WhileInterpreter/docco/vertical/src/main/java/interpreter/Interpreter.java.html) where the formal syntax and semantics of the _while prorgrams_ are defined.
+Start with [Parser.java](https://malteschmitz.github.io/WhileInterpreter/docco/vertical/src/main/java/parser/Parser.java.html) and [Interpreter.java](https://malteschmitz.github.io/WhileInterpreter/docco/vertical/src/main/java/interpreter/Interpreter.java.html) where the formal syntax and semantics of _while programs_ are defined.
 
 ## Building
 
