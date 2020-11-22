@@ -1,4 +1,4 @@
-# Parser and Interpreter for While Programs [![Build Status](https://travis-ci.org/malteschmitz/WhileInterpreter.svg?branch=master)](https://travis-ci.org/malteschmitz/WhileInterpreter)
+# Parser and Interpreter for While Programs [![Build Status](https://travis-ci.com/malteschmitz/WhileInterpreter.svg?branch=master)](https://travis-ci.com/malteschmitz/WhileInterpreter)
 
 Exemplary Java implementation of a _recursive decent parser_, an _abstract syntax tree (AST) data structure_ and a _structural recursive interpreter_ over this data structure.
 
